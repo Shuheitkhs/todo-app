@@ -1,26 +1,37 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useEffect } from 'react';
+import { useSetRecoilState } from 'recoil';
+import { todoListState , Todo } from './recoil/atoms';
+import AddTodo from './components/AddTodo';
+import TodoList from './components/TodoList';
+import Filters from './components/Filters';
+// 以下でfirebaseと連携
+import { db } from './firebaseConfig';
+import { collection, getDocs } from 'firebase/firestore';
+import './App.css'
 
-function App() {
+const App: React.FC = () => {
+  const setTodoList = useSetRecoilState(todoListState);
+
+  // firebaseから情報を受け取って更新
+  useEffect(() => {
+    const fetchTodos = async () => {
+      const querySnapshot = await getDocs(collection(db, 'todos'));
+      const todos = querySnapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() } as Todo));
+      setTodoList(todos);
+    };
+
+    // TodoListが更新されるたびに再レンダ
+    fetchTodos();
+  }, [setTodoList]);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className='App'>
+      <h1>TODOアプリ</h1>
+      <AddTodo />
+      <Filters />
+      <TodoList />
     </div>
   );
-}
+};
 
 export default App;
