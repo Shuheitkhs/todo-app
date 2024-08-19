@@ -65,11 +65,13 @@ const TodoItem: React.FC<TodoItemProps> = ({ todo }) => {
             type="text"
             value={editedTitle}
             onChange={(e) => setEditedTitle(e.target.value)}
+            className="w-full m-1 text-text font-bold py-2 px-4 rounded"
           />
           <input
             type="text"
             value={editedDetails}
             onChange={(e) => setEditedDetails(e.target.value)}
+            className="w-full m-1 text-text font-bold py-2 px-4 rounded"
           />
           <select
             value={editedStatus}
@@ -81,16 +83,40 @@ const TodoItem: React.FC<TodoItemProps> = ({ todo }) => {
             <option value="進行中">進行中</option>
             <option value="完了">完了</option>
           </select>
-          <button onClick={saveEdit}>保存</button>
-          <button onClick={() => setIsEditing(false)}>キャンセル</button>
+          <button
+            onClick={saveEdit}
+            className="bg-accent hover:bg-accentdark text-text font-bold py-2 px-4 rounded"
+          >
+            保存
+          </button>
+          <button
+            onClick={() => setIsEditing(false)}
+            className="ml-2 bg-accent hover:bg-accentdark text-text font-bold py-2 px-4 rounded"
+          >
+            キャンセル
+          </button>
         </>
       ) : (
         <>
-          <h3>{todo.title}</h3>
-          <p>{todo.details}</p>
-          <p>{todo.status}</p>
-          <button onClick={() => setIsEditing(true)}>編集</button>
-          <button onClick={deleteTodo}>削除</button>
+          <div className="border-1 mb-1 shadow-md rounded">
+            <h3 className="text-text font-bold">{todo.title}</h3>
+            <p className="text-text font-bold">{todo.details}</p>
+            <p className="text-text font-bold">{todo.status}</p>
+            <div className="text-right">
+              <button
+                onClick={() => setIsEditing(true)}
+                className="bg-accent hover:bg-accentdark text-text font-bold py-2 px-4 rounded"
+              >
+                編集
+              </button>
+              <button
+                onClick={deleteTodo}
+                className="ml-2 bg-accent hover:bg-accentdark text-text font-bold py-2 px-4 rounded"
+              >
+                削除
+              </button>
+            </div>
+          </div>
         </>
       )}
     </div>

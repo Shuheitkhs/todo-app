@@ -42,34 +42,37 @@ const App: React.FC = () => {
   });
 
   return (
-    <div className="App">
-      <h1>TODOアプリ</h1>
+    <div className="min-h-screen flex items-center justify-center">
+      <div className="w-full max-w-md bg-bg shadow-md rounded-lg m-6 p-6">
+        <h1 className="text-2xl font-bold text-center mb-6">TODOアプリ</h1>
 
-      <AddTodo />
+        <AddTodo />
 
-      {/* 検索バーとステータスフィルター */}
-      <input
-        placeholder="検索..."
-        value={searchTerm}
-        onChange={(e) => setSearchTerm(e.target.value)}
-      />
-      <select
-        value={statusFilter}
-        onChange={(e) =>
-          setStatusFilter(
-            e.target.value as "すべて" | "未着手" | "進行中" | "完了"
-          )
-        }
-      >
-        {" "}
-        <option value="すべて">すべて</option>
-        <option value="未着手">未着手</option>
-        <option value="進行中">進行中</option>
-        <option value="完了">完了</option>
-      </select>
+        {/* 検索バーとステータスフィルター */}
+        <input
+          placeholder="検索..."
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+          className="w-1/2"
+        />
+        <select
+          value={statusFilter}
+          onChange={(e) =>
+            setStatusFilter(
+              e.target.value as "すべて" | "未着手" | "進行中" | "完了"
+            )
+          }
+        >
+          {" "}
+          <option value="すべて">すべて</option>
+          <option value="未着手">未着手</option>
+          <option value="進行中">進行中</option>
+          <option value="完了">完了</option>
+        </select>
 
-      {/* フィルタリングされたTODOリストの表示 */}
-      <TodoList todoList={filteredTodoList} />
+        {/* フィルタリングされたTODOリストの表示 */}
+        <TodoList todoList={filteredTodoList} />
+      </div>
     </div>
   );
 };
