@@ -1,14 +1,14 @@
 import React from "react";
-import { useRecoilValue } from "recoil";
-import { todoListState } from "../recoil/atoms";
+import { Todo } from "../recoil/atoms";
 import TodoItem from "./TodoItem";
 
-const TodoList: React.FC = () => {
-  const todoList = useRecoilValue(todoListState);
+interface TodoListProps {
+  todoList: Todo[];
+}
 
+const TodoList: React.FC<TodoListProps> = ({ todoList }) => {
   return (
     <div>
-      {/* 0なら無い、ある場合はIDをkeyにした表示 */}
       {todoList.length === 0 ? (
         <p>TODOがありません</p>
       ) : (
