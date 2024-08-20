@@ -25,8 +25,15 @@ const AddTodo: React.FC = () => {
       console.log("デバッグ用、Firestoreに追加");
       const docRef = await addDoc(collection(db, "todos"), newTodo);
       console.log("デバッグ用、idと一緒に記載: ", docRef.id);
+      // オブジェクトにdocRef.idを追加
+      const todoAddFirestoreId = { ...newTodo, id: docRef.id };
+      setTodoList([...todoList, todoAddFirestoreId]);
 
-      setTodoList([...todoList, newTodo]);
+      // 渡ってきたidの再確認
+      // const newTodoList = [...todoList, newTodo];
+      // console.log("デバッグ用、新しいTodoリスト: ", newTodoList);
+      // setTodoList(newTodoList);
+
       // 追加後フォームのクリア
       setTitle("");
       setDetails("");
