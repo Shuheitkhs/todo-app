@@ -45,11 +45,23 @@ const App: React.FC = () => {
    * jsDocの練習・filter機能の関数
    * @function filteredTodoList　フィルター機能を実行する関数です。
    * @param {Todo} todo 引数にTodo型のtodoをとって、条件に合致する以下のreturnを返す
-   * @returns {Todo[]} フィルター後のTodo型の配列を返す
+   * @returns {Todo[]} matchesSearchTermとmatchesStatusが両方trueのものを返す
    */
   const filteredTodoList = todoList.filter((todo) => {
+    /**
+     * @constant matchesSearchTerm 検索文字列に合致するものを入れた定数
+     * @param {Todo} todo 引数にとったtodoに対してincludesで
+     * @param {string} searchTerm searchTermを含んでいるか確認
+     * @returns {boolean} trueかfalseを返す。
+     */
     const matchesSearchTerm =
       todo.title.includes(searchTerm) || todo.details.includes(searchTerm);
+    /**
+     * @constant matchesStatus statusに合致するものを入れた定数
+     * @param {Todo} todo 引数にとったtodoに対して
+     * @param {string} statusFilter すべてなら、その時点でtrue,falseならstatusが合致するものを入れる
+     * @returns {boolean} trueかfalseを返す。
+     */
     const matchesStatus =
       statusFilter === "すべて" || todo.status === statusFilter;
     return matchesSearchTerm && matchesStatus;
@@ -66,7 +78,7 @@ const App: React.FC = () => {
         <input
           placeholder="検索..."
           value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
+          onChange={(e) => setSearchTerm(e.target.value as string)}
           className="w-1/2"
         />
         <select
