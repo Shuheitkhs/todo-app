@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { useSetRecoilState } from "recoil";
 import { todoListState, Todo } from "../recoil/atoms";
 // firebaseと連携、todoを削除編集する

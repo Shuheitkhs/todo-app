@@ -1,4 +1,3 @@
-import React from "react";
 import { Todo } from "../recoil/atoms";
 import TodoItem from "./TodoItem";
 

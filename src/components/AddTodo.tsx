@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { useRecoilState } from "recoil";
 import { todoListState, Todo } from "../recoil/atoms";
 // 一意のID生成

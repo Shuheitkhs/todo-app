@@ -1,5 +1,8 @@
-import React, { useState, useEffect } from "react";
-import { useSetRecoilState, useRecoilValue } from "recoil";
+// レビュー後・index.tsx以外のファイルのReactのインポート削除
+import { useState, useEffect } from "react";
+// import { useSetRecoilState, useRecoilValue } from "recoil";それぞれ状態の取得と、更新を別々で行っていたものが
+// レビュー後・状態管理で状態の取得と更新をひとつでできる。
+import { useRecoilState } from "recoil";
 import { todoListState, Todo } from "./recoil/atoms";
 import AddTodo from "./components/AddTodo";
 import TodoList from "./components/TodoList";
@@ -8,12 +11,17 @@ import { db } from "./firebaseConfig";
 import { collection, getDocs } from "firebase/firestore";
 import "./App.css";
 
+// レビュー後・フィルターの型を定義・ユニオン型で限定
+type StatusFilterType = "すべて" | "未着手" | "進行中" | "完了";
+
 const App: React.FC = () => {
-  const setTodoList = useSetRecoilState(todoListState);
-  const todoList = useRecoilValue(todoListState); // 現在のTODOリストを取得
+  // レビュー後・下記をまとめて
+  // const setTodoList = useSetRecoilState(todoListState);
+  // const todoList = useRecoilValue(todoListState); // 現在のTODOリストを取得
+  const [todoList, setTodoList] = useRecoilState(todoListState);
 
   const [searchTerm, setSearchTerm] = useState(""); // 検索キーワードの状態管理
-  const [statusFilter, setStatusFilter] = useState("すべて"); // ステータスフィルターの状態管理
+  const [statusFilter, setStatusFilter] = useState<StatusFilterType>("すべて"); // ステータスフィルターの状態管理
 
   // firebaseから情報を受け取って更新
   useEffect(() => {
@@ -33,6 +41,12 @@ const App: React.FC = () => {
   }, [setTodoList]);
 
   // 移動されたfilter機能
+  /**
+   * jsDocの練習・filter機能の関数
+   * @function filteredTodoList　フィルター機能を実行する関数です。
+   * @param {Todo} todo 引数にTodo型のtodoをとって、条件に合致する以下のreturnを返す
+   * @returns {Todo[]} フィルター後のTodo型の配列を返す
+   */
   const filteredTodoList = todoList.filter((todo) => {
     const matchesSearchTerm =
       todo.title.includes(searchTerm) || todo.details.includes(searchTerm);
@@ -57,11 +71,7 @@ const App: React.FC = () => {
         />
         <select
           value={statusFilter}
-          onChange={(e) =>
-            setStatusFilter(
-              e.target.value as "すべて" | "未着手" | "進行中" | "完了"
-            )
-          }
+          onChange={(e) => setStatusFilter(e.target.value as StatusFilterType)}
         >
           {" "}
           <option value="すべて">すべて</option>

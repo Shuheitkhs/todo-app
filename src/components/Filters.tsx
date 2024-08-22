@@ -1,6 +1,9 @@
-import React from 'react';
-import { useRecoilState } from 'recoil';
-import { statusFilterState, searchTermState, todoListState } from '../recoil/atoms';
+import { useRecoilState } from "recoil";
+import {
+  statusFilterState,
+  searchTermState,
+  todoListState,
+} from "../recoil/atoms";
 
 const Filters: React.FC = () => {
   const [statusFilter, setStatusFilter] = useRecoilState(statusFilterState);
@@ -8,8 +11,10 @@ const Filters: React.FC = () => {
   const [todoList] = useRecoilState(todoListState);
 
   const filteredTodoList = todoList.filter((todo) => {
-    const matchesSearchTerm = todo.title.includes(searchTerm) || todo.details.includes(searchTerm);
-    const matchesStatus = statusFilter === 'すべて' || todo.status === statusFilter;
+    const matchesSearchTerm =
+      todo.title.includes(searchTerm) || todo.details.includes(searchTerm);
+    const matchesStatus =
+      statusFilter === "すべて" || todo.status === statusFilter;
     return matchesSearchTerm && matchesStatus;
   });
 
@@ -22,14 +27,18 @@ const Filters: React.FC = () => {
       />
       <select
         value={statusFilter}
-        onChange={(e) => setStatusFilter(e.target.value as 'すべて' | '未着手' | '進行中' | '完了')}
+        onChange={(e) =>
+          setStatusFilter(
+            e.target.value as "すべて" | "未着手" | "進行中" | "完了"
+          )
+        }
       >
         <option value="すべて">すべて</option>
         <option value="未着手">未着手</option>
         <option value="進行中">進行中</option>
         <option value="完了">完了</option>
       </select>
-      <div >
+      <div>
         {filteredTodoList.map((todo) => (
           <div key={todo.id}>
             <h3>{todo.title}</h3>
